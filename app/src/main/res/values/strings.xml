@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyPlan</string>
+    <string name="menu_settings">设置</string>
+
 </resources>
