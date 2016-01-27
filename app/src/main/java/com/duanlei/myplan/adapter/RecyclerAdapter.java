@@ -64,6 +64,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             super(view);
             time = (TextView) view.findViewById(R.id.tv_time);
             content = (TextView) view.findViewById(R.id.tv_content);
+            view.setOnClickListener(this);
         }
 
         @Override

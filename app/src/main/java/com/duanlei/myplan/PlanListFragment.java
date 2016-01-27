@@ -1,5 +1,6 @@
 package com.duanlei.myplan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,21 +23,33 @@ import java.util.List;
 public class PlanListFragment extends Fragment {
 
     private List<Plan> mData;
+    private RecyclerAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_plan, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_plan_list);
 
-        RecyclerView recyclerView =
-                (RecyclerView) inflater.inflate(R.layout.fragment_plan, container, false);
-
+        MainActivity.mAddButton.attachToRecyclerView(recyclerView);
+        MainActivity.mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addPlan(v);
+            }
+        });
 
         setupData();
-
         setupRecyclerView(recyclerView);
+        return view;
+    }
 
-        return recyclerView;
+    public void addPlan(View view) {
+//        Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
+
+
     }
 
     private void setupData() {
@@ -51,7 +64,18 @@ public class PlanListFragment extends Fragment {
         //设置item排列的方向，为垂直方向
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new RecyclerAdapter(mData));
+
+        mAdapter = new RecyclerAdapter(mData);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), PlanDetailActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+
     }
 
 
